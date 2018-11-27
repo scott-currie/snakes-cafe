@@ -17,6 +17,7 @@ def show_greeting():
     for blurb in blurbs:
         print('*' + (' ' * ((WIDTH - 2 - len(blurb)) // 2)) + blurb + (' ' * ((WIDTH - 2 - len(blurb)) // 2)) + '*')
     print('*' * WIDTH)
+    print()
 
 
 def show_menu():
@@ -29,12 +30,22 @@ def show_menu():
 
 def show_menu_items(category, items):
     """Takes a category name and item list and prints them out"""
-    print('*' * (len(category) + 4))
-    print('* ' + category[0].upper() + category[1:] + '  *')
-    print('*' * (len(category) + 4) +'\n')
+    # Print category name
+    print(category.title())
+    print('-' * len(category))
     for item in items:
         # Print each item in title case
         print(item.title())
+    print()
+
+
+def show_prompt():
+    """Display a prompt instructing the user to make selections."""
+    msg = 'Please enter your selections.'
+    print('*' * (len(msg) + 4))
+    print(f'* {msg} *')
+    print('*' * (len(msg) + 4))
+    print()
 
 
 def get_selection():
@@ -61,13 +72,14 @@ def check_input(user_input):
 def show_confirmation(choice):
     """Accept user's choice as string and print a message confirming the order and total quantity"""
     quantity = order[choice]
-    print(f'{quantity} {"order" if quantity == 1 else "orders"} of {choice.title()} have been added to your meal.')
+    print(f'\n{quantity} {"order" if quantity == 1 else "orders"} of {choice.title()} {"has" if quantity == 1 else "have"} been added to your meal.\n')
 
 
 def run():
     """Entry point into this script"""
     show_greeting()
     show_menu()
+    show_prompt()
     while True:
         # Get user's selection
         choice = get_selection().lower()
@@ -75,7 +87,7 @@ def run():
         if check_input(choice):
             show_confirmation(choice)
         else:
-            print('Sorry. That\'s not an item on our menu.')
+            print('\nSorry. That\'s not an item on our menu.\n')
 
 
 if __name__ == '__main__':
