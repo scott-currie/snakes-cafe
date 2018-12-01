@@ -1,27 +1,37 @@
-import sys
+import os, sys
 
 
 WIDTH = 80
 menu = {'appetizers': ['mozarella sticks', 'calamari', 'hummus'],
-    'entrees': ['spaghetti', 'prime rib', 'pad thai'],
-    'desserts': ['ice cream', 'pie', 'flan'],
-    'drinks': ['iced tea', 'coffee', 'soda']
-}
+        'entrees': ['spaghetti', 'prime rib', 'pad thai'],
+        'desserts': ['ice cream', 'pie', 'flan'],
+        'drinks': ['iced tea', 'coffee', 'soda']
+        }
 order = {}
 
 
 def show_greeting():
-    """Print a formatted banner"""
-    blurbs = ['', 'Welcome to Snake\'s Cafe', "Please make your selections from the following menu items", 'Enter \'quit\' at any time to complete your order', '']
+    """Print a formatted banner.
+
+    input: none
+    returns: none
+    """
+    blurbs = ['', 'Welcome to Snake\'s Cafe', "Please make your selections from the following menu items",
+              'Enter \'quit\' at any time to complete your order', '']
     print('*' * WIDTH)
     for blurb in blurbs:
-        print('*' + (' ' * ((WIDTH - 2 - len(blurb)) // 2)) + blurb + (' ' * ((WIDTH - 2 - len(blurb)) // 2)) + '*')
+        print(f'*{blurb.center(WIDTH - 2)}*')
     print('*' * WIDTH)
     print()
 
 
 def show_menu():
-    """Iterate over the menu items for display"""
+    """Iterate over the menu items for display. For each category, call show_menu_items with the category
+    data as argument. The categories list exists to maintain order. Could replace menu with an OrderedList at some point.
+
+    input: none
+    returns: none
+    """
     categories = ['appetizers', 'entrees', 'desserts', 'drinks']
     for category in categories:
         items = menu[category]
@@ -29,7 +39,12 @@ def show_menu():
 
 
 def show_menu_items(category, items):
-    """Takes a category name and item list and prints them out"""
+    """Takes a category name and item list and prints them out.
+
+    input: category (str)
+    input: items (list)
+    returns: none
+    """
     # Print category name
     print(category.title())
     print('-' * len(category))
@@ -40,7 +55,11 @@ def show_menu_items(category, items):
 
 
 def show_prompt():
-    """Display a prompt instructing the user to make selections."""
+    """Display a prompt instructing the user to make selections.
+
+    input: none
+    returns: none
+    """
     msg = 'Please enter your selections.'
     print('*' * (len(msg) + 4))
     print(f'* {msg} *')
@@ -49,15 +68,23 @@ def show_prompt():
 
 
 def get_selection():
-    """Read the user's input from prompt"""
+    """Read the user's input from prompt.
+
+    input: none
+    returns: (str) Input read from user input.
+    """
     return input('> ')
 
 
 def check_input(user_input):
-    """Decide what to do with user's input"""
+    """Add item to menu or quit, depending on input.(
+
+    input: user_input (str) user's input
+    returns: (boolean) True if menu item added successfully, else False
+    """
     if user_input == 'quit':
         print('Thanks for ordering from Snake\'s Cafe.')
-        sys.exit(0)
+        os._exit(0)
     # Check each category to look for user's input
     for category in menu:
         if user_input in menu[category]:
@@ -70,13 +97,24 @@ def check_input(user_input):
 
 
 def show_confirmation(choice):
-    """Accept user's choice as string and print a message confirming the order and total quantity"""
+    """Accept user's choice as string and print a message confirming the order and total quantity.
+
+    input: choice (str) represents item added to user's order previously
+    returns: none
+    """
     quantity = order[choice]
-    print(f'\n{quantity} {"order" if quantity == 1 else "orders"} of {choice.title()} {"has" if quantity == 1 else "have"} been added to your meal.\n')
+
+    print(f'\n{quantity} {"order" if quantity == 1 else "orders"} of {choice.title()} \
+        {"has" if quantity == 1 else "have"} been added to your meal.\n')
 
 
 def run():
-    """Entry point into this script"""
+    """Entry point into this script. Shows greeting, menu, prompts user for input, and continues
+    until user quits.
+
+    input: none
+    returns: none
+    """
     show_greeting()
     show_menu()
     show_prompt()
@@ -91,6 +129,7 @@ def run():
 
 
 if __name__ == '__main__':
-    run()
-
-
+    try:
+        run()
+    except KeyboardInterrupt:
+        os._exit(0)
