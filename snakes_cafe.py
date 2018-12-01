@@ -1,4 +1,5 @@
-import os, sys
+import os
+import sys
 
 
 WIDTH = 80
@@ -103,9 +104,13 @@ def show_confirmation(choice):
     returns: none
     """
     quantity = order[choice]
+    subs = [quantity,
+            "order" if quantity == 1 else "orders",
+            choice.title(),
+            "has" if quantity == 1 else "have"
+            ]
 
-    print(f'\n{quantity} {"order" if quantity == 1 else "orders"} of {choice.title()} \
-        {"has" if quantity == 1 else "have"} been added to your meal.\n')
+    print('\n{} {} of {} {} been added to your meal.\n'.format(*subs))
 
 
 def run():
